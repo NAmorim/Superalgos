@@ -1,38 +1,38 @@
 name: Build/release Binaries
 
 on: 
-  pull_request: 
-    branches: [master]
-  #release:
-  #  types: [published, created]
+  #pull_request: 
+  #  branches: [master]
+  release:
+    types: [published, created]
 
   workflow_dispatch:
 
 jobs:
-  create-release:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download a file
-        run: curl "https://raw.githubusercontent.com/${{ github.repository }}/master/package.json" -o package.json
+  #create-release:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Download a file
+  #      run: curl "https://raw.githubusercontent.com/${{ github.repository }}/master/package.json" -o package.json
 
-      - name: get-version
-        id: version
-        uses: nyaa8/package-version@v1
-        with:
-          path: './package.json'
+  #    - name: get-version
+  #      id: version
+  #      uses: nyaa8/package-version@v1
+  #      with:
+  #        path: './package.json'
 
-      - name: Create release
-        id: create_release
-        uses: viperproject/create-nightly-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.PACKAGE_VERSION }}
-          release_name: Superalgos-v${{ env.PACKAGE_VERSION }}
+  #    - name: Create release
+  #      id: create_release
+  #      uses: viperproject/create-nightly-release@v1
+  #      env:
+  #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #      with:
+  #        tag_name: ${{ env.PACKAGE_VERSION }}
+  #        release_name: Superalgos-v${{ env.PACKAGE_VERSION }}
 
   build-release:
     runs-on: ${{ matrix.os }}
-    needs: create-release
+    #needs: create-release
     strategy:
         matrix:
           os: [windows-latest, macos-latest]
