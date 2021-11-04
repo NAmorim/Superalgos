@@ -16,9 +16,6 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
-      - name: Set output
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v1
@@ -31,7 +28,7 @@ jobs:
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)
           github_token: ${{ secrets.github_token }}
-          args: "-c.extraMetadata.version=${{ steps.vars.outputs.tag }} -c build/electron-builder.json -p always"
+          args: "-c build/electron-builder.json -p always"
 
           # If the commit is tagged with a version (e.g. "v1.0.0"),
           # release the app after building
