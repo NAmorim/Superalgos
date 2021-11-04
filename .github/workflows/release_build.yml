@@ -1,9 +1,9 @@
 name: Build/release Binaries
 
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types:
+      - published
 
   workflow_dispatch:
 
