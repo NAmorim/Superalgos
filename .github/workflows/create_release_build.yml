@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-create-release:
+  create-release:
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -44,8 +44,8 @@ create-release:
           release: true
 
   build-release:
-    needs: create-release
     runs-on: ${{ matrix.os }}
+    needs: create-release
     strategy:
         matrix:
           os: [windows-latest, macos-latest]
