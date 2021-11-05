@@ -3,8 +3,9 @@ tag-template: '$RESOLVED_VERSION'
 template: |
   # What's Changed
   $CHANGES
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+
+  # Who participated in this release
+  $CONTRIBUTORS
 categories:
   - title: 'Breaking'
     label: 'type: breaking'
@@ -13,13 +14,13 @@ categories:
   - title: '🐛 Bug Fixes'
     label: 'type: bug'
   - title: '🧰 Maintenance'
-    label: 'type: maintenance'
+    label: 'type: maint'
   - title: 'Documentation'
     label: 'type: docs'
   - title: 'Dependency Updates'
-    label: 'type: dependencies'
+    label: 'type: depend'
   - title: 'Security'
-    label: 'type: security'
+    label: 'type: sec'
 
 version-resolver:
   major:
