@@ -10,9 +10,11 @@ categories:
   - title: '🐛 Bug Fixes'
     label: 'type: bug'
   - title: '🧰 Maintenance'
-    label: 'type: maint'
+    label: 'type: code maintenance'
   - title: 'Documentation'
-    label: 'type: documentation'
+    label: 
+      - 'type: documentation'
+      - 'type: Education Project'
   - title: 'Dependency Updates'
     label: 'type: dependencies'
   - title: 'Security'
