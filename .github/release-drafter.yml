@@ -4,18 +4,20 @@ categories:
   - title: 'Breaking'
     label: 'type: breaking'
   - title: '🚀 New Feature'
-    label: 'type: feature'
+    label: 
+      - 'type: feature'
+      - 'type: improvement'
   - title: '🐛 Bug Fixes'
     label: 'type: bug'
   - title: '🧰 Maintenance'
     label: 'type: maint'
   - title: 'Documentation'
-    label: 'type: docs'
+    label: 'type: documentation'
   - title: 'Dependency Updates'
-    label: 'type: depend'
+    label: 'type: dependencies'
   - title: 'Security'
     label: 'type: sec'
-
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 version-resolver:
   major:
     labels:
