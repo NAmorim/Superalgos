@@ -2,38 +2,38 @@ name-template: 'Superalgos-v$RESOLVED_VERSION'
 tag-template: '$RESOLVED_VERSION'
 categories:
   - title: 'Breaking'
-    label: 'type: breaking'
+    label: 'breaking'
   - title: '🚀 New Feature'
     label: 
-      - 'type: feature'
-      - 'type: improvement'
+      - 'feature'
+      - 'improvement'
   - title: '🐛 Bug Fixes'
-    label: 'type: bug'
+    label: 'bug'
   - title: '🧰 Maintenance'
-    label: 'type: code maintenance'
+    label: 'code maintenance'
   - title: 'Documentation'
     label: 
-      - 'type: documentation'
-      - 'type: Education Project'
+      - 'documentation'
+      - 'Education Project'
   - title: 'Dependency Updates'
-    label: 'type: dependencies'
+    label: 'dependencies'
   - title: 'Security'
-    label: 'type: sec'
+    label: 'security'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 version-resolver:
   major:
     labels:
-      - 'type: breaking'
+      - 'breaking'
   minor:
     labels:
-      - 'type: feature'
+      - 'feature'
   patch:
     labels:
-      - 'type: bug'
-      - 'type: maintenance'
-      - 'type: docs'
-      - 'type: dependencies'
-      - 'type: security'
+      - 'bug'
+      - 'maintenance'
+      - 'docs'
+      - 'dependencies'
+      - 'security'
 
 exclude-labels:
   - 'skip-changelog'
