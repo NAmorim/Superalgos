@@ -22,12 +22,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
-          
-      - name: get-version
-        id: version
-        uses: nyaa8/package-version@v1
-        with:
-          path: './package.json'
+      
+      - name: Get version
+        id: vars
+        run:  npm pkg get version
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
@@ -35,10 +33,6 @@ jobs:
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)
           github_token: ${{ secrets.github_token }}
-          args: "-c.extraMetadata.version=${{ env.PACKAGE_VERSION }} -c build/electron-builder.json -p always"
-
-          # If the commit is tagged with a version (e.g. "v1.0.0"),
-          # release the app after building
-          # release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          args: "-c.extraMetadata.version=${{ steps.vars.outputs.tag }} -c build/electron-builder.json -p always"
           release: true
 
