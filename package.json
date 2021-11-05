@@ -5,7 +5,7 @@
   "license": "Apache License 2.0",
   "homepage": "https://www.superalgos.org/",
   "author": {
-    "name": "Luis-Fernando-Molina"
+    "name": "Superalgos"
   },
   "scripts": {
     "start": "node platform minMemo noBrowser",
