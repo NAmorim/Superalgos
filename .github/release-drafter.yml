@@ -1,11 +1,5 @@
 name-template: 'Superalgos-v$RESOLVED_VERSION'
 tag-template: '$RESOLVED_VERSION'
-template: |
-  # What's Changed
-  $CHANGES
-
-  # Who participated in this release
-  $CONTRIBUTORS
 categories:
   - title: 'Breaking'
     label: 'type: breaking'
@@ -39,3 +33,8 @@ version-resolver:
 
 exclude-labels:
   - 'skip-changelog'
+template: |
+  ### What's Changed
+  $CHANGES
+  ### Who participated in this release
+  $CONTRIBUTORS
