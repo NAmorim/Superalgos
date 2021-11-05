@@ -25,7 +25,7 @@ jobs:
       
       - name: Get version
         id: vars
-        run:  npm pkg get version
+        run:  node -p "require('./package.json').version"
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
