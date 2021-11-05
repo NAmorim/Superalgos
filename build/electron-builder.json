@@ -62,6 +62,10 @@
           }
       ]
     },
+    "linux": {
+      "target": "AppImage",
+      "arch": ["x64", "armv7l"]
+    },
     "extraMetadata": {
         "main": "electron-wrapper.js"
     }
