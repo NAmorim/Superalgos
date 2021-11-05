@@ -1,0 +1,40 @@
+name-template: 'Superalgos-v$RESOLVED_VERSION'
+tag-template: '$RESOLVED_VERSION'
+categories:
+  - title: 'Breaking'
+    label: 'type: breaking'
+  - title: '🚀 New Feature'
+    label: 'type: feature'
+  - title: '🐛 Bug Fixes'
+    label: 'type: bug'
+  - title: '🧰 Maintenance'
+    label: 'type: maint'
+  - title: 'Documentation'
+    label: 'type: docs'
+  - title: 'Dependency Updates'
+    label: 'type: depend'
+  - title: 'Security'
+    label: 'type: sec'
+
+version-resolver:
+  major:
+    labels:
+      - 'type: breaking'
+  minor:
+    labels:
+      - 'type: feature'
+  patch:
+    labels:
+      - 'type: bug'
+      - 'type: maintenance'
+      - 'type: docs'
+      - 'type: dependencies'
+      - 'type: security'
+
+exclude-labels:
+  - 'skip-changelog'
+template: |
+  ### What's Changed
+  $CHANGES
+  ### Who participated in this release
+  $CONTRIBUTORS
