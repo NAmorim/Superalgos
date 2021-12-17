@@ -17,6 +17,7 @@ function newGovernanceUserProfileSpace() {
     let waitingForResponses = 0
     const BSC_SCAN_RATE_LIMIT_DELAY = 6000 * 6
     let reputationByAddress = new Map()
+    let reputationByLp = new Map()
 
     return thisObject
 
@@ -364,7 +365,7 @@ function newGovernanceUserProfileSpace() {
         }
     }
 
-    function physics() {
+    async function physics() {
 
         if (UI.projects.foundations.spaces.designSpace.workspace === undefined) { return }
         /*
@@ -372,6 +373,10 @@ function newGovernanceUserProfileSpace() {
         */
         let governanceProject = UI.projects.foundations.spaces.designSpace.workspace.getProjectHeadByNodeType('Governance Project')
         if (governanceProject === undefined) { return }
+        /*
+        Prepare an array with the tokens in the wallet and LP pools
+        */
+        let consolidatedReputation = 0
         /*
         Load the user profiles with Token Power.
         */
@@ -398,6 +403,7 @@ function newGovernanceUserProfileSpace() {
                 getBlockchainAccount(userProfile)
                 return
             }
+            //calculateReputation(userProfile)
         }
 
         function getBlockchainAccount(userProfile) {
@@ -461,6 +467,7 @@ function newGovernanceUserProfileSpace() {
                     Now we get the SA Tokens Balance.
                     */
                     getBlockchainTokens(userProfile, blockchainAccount)
+                    return
                 }
             }
         }
@@ -496,8 +503,24 @@ function newGovernanceUserProfileSpace() {
                     )
                     userProfile.payload.blockchainTokens = Number(commandResponse.balance)
                     console.log('[INFO] SA Balance of ' + userProfile.name + ' is ', userProfile.payload.blockchainTokens)
-                    userProfile.payload.reputation = Math.min(reputationByAddress.get(blockchainAccount.toLowerCase()) | 0, userProfile.payload.blockchainTokens)
-                    console.log('[INFO] Reputation of ' + userProfile.name + ' is ', userProfile.payload.reputation)
+
+                    if (reputationByLp.get(blockchainAccount.toLowerCase()) === undefined) { reputationByLp.set(blockchainAccount.toLowerCase(), 0) }
+                    let reputation = Number(reputationByLp.get(blockchainAccount.toLowerCase())) + userProfile.payload.blockchainTokens
+                    reputationByLp.set(blockchainAccount.toLowerCase(), reputation)
+                    console.log('[INFO] Reputation of ' + userProfile.name + ' is incremented to ', reputation + ' from wallet balance')
+                    console.log('[INFO] SA tokens from ' + userProfile.name + ' wallet => ' , Math.floor(Number(commandResponse.SAbalance)))
+                    
+                    if (reputationByLp.get(blockchainAccount.toLowerCase() + '_custodyAccounts') === undefined) { reputationByLp.set(blockchainAccount.toLowerCase() + '_custodyAccounts', 0) }
+                    let prevReputation = reputationByLp.get(blockchainAccount.toLowerCase() + '_custodyAccounts')
+                    let newReputation = prevReputation + 1
+                    reputationByLp.set(blockchainAccount.toLowerCase() + '_custodyAccounts', newReputation)
+                    
+                    /* userProfile.payload.reputation = Math.min(reputationByAddress.get(blockchainAccount.toLowerCase()) | 0, lpReputation)
+                    reputationByAddress.set(blockchainAccount.toLowerCase(), userProfile.payload.reputation)
+                    console.log('[INFO] Reputation of ' + userProfile.name + ' is ', userProfile.payload.reputation) */   
+
+                    // Check if you processed all the pools and wallet
+                    if (reputationByLp.get(blockchainAccount.toLowerCase() + '_custodyAccounts') === Object.keys(userProfile.payload.liquidityTokens).length + 1) {calculateReputation(userProfile)}          
                 }
             }
         }
@@ -508,13 +531,14 @@ function newGovernanceUserProfileSpace() {
             let request = {
                 url: 'WEB3',
                 params: {
-                    method: "getUserWalletBalance",
+                    method: "getUserLPBalance",
                     walletAddress: blockchainAccount,
                     contractAddress: marketContract
                 }
             }
 
             httpRequest(JSON.stringify(request.params), request.url, onResponse)
+
 
             function onResponse(err, data) {
                 if (err.result === GLOBAL.DEFAULT_FAIL_RESPONSE) {
@@ -531,8 +555,31 @@ function newGovernanceUserProfileSpace() {
                     )
                     userProfile.payload.liquidityTokens[asset] = Number(commandResponse.balance)
                     console.log('[INFO] Liquidity of ' + userProfile.name + ' for asset ' + asset + ' is ', userProfile.payload.liquidityTokens[asset])
+                    // Increment the reputation with the SA tokens in liquidity pools
+                    let reputation = Number(reputationByLp.get(blockchainAccount.toLowerCase())) + Number(commandResponse.SAbalance)
+                    reputationByLp.set(blockchainAccount.toLowerCase(), reputation)
+                    //lpReputation = Math.floor(lpReputation + Number(commandResponse.SAbalance))
+                    //userProfile.payload.reputation = Math.min(reputationByAddress.get(blockchainAccount.toLowerCase()) | 0, userProfile.payload.blockchainTokens)
+                    console.log('[INFO] Reputation of ' + userProfile.name + ' is incremented to ', Math.floor(reputation) + ' from pool with asset ' + asset)
+                    console.log('[INFO] SA tokens from ' + userProfile.name + ' assigned to ' + asset + ' pool => ' , Math.floor(Number(commandResponse.SAbalance)))
+                    
+                    /* userProfile.payload.reputation = Math.min(reputationByAddress.get(blockchainAccount.toLowerCase()) | 0, lpReputation)
+                    reputationByAddress.set(blockchainAccount.toLowerCase(), userProfile.payload.reputation)
+                    console.log('[INFO] Reputation of ' + userProfile.name + ' is ', userProfile.payload.reputation) */
+                    if (reputationByLp.get(blockchainAccount.toLowerCase() + '_custodyAccounts') === undefined) { reputationByLp.set(blockchainAccount.toLowerCase() + '_custodyAccounts', 0) }
+                    let prevReputation = reputationByLp.get(blockchainAccount.toLowerCase() + '_custodyAccounts')
+                    let newReputation = prevReputation + 1
+                    reputationByLp.set(blockchainAccount.toLowerCase() + '_custodyAccounts', newReputation)
+                    // Check if you processed all the pools and wallet
+                    if (reputationByLp.get(blockchainAccount.toLowerCase() + '_custodyAccounts') === Object.keys(userProfile.payload.liquidityTokens).length + 1) {calculateReputation(userProfile)}
                 }
             }
+        }
+
+        function calculateReputation(userProfile) {
+            reputation = Math.min(reputationByAddress.get(userProfile.payload.blockchainAccount.toLowerCase()) | 0, reputationByLp.get(userProfile.payload.blockchainAccount.toLowerCase()))
+            userProfiles.payload.reputation = reputation
+            console.log('[INFO] Reputation of ' + userProfile.name + ' is ', reputation)
         }
     }
 

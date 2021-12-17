@@ -89,6 +89,16 @@ exports.newHttpInterface = function newHttpInterface() {
                                     SA.projects.foundations.utilities.httpResponses.respondWithContent(JSON.stringify(serverResponse), httpResponse)
                                     return
                                 }
+                                case 'getUserLPBalance': {
+
+                                    let serverResponse = await PL.servers.WEB3_SERVER.getUserLPBalance(
+                                        params.walletAddress,
+                                        params.contractAddress
+                                    )
+
+                                    SA.projects.foundations.utilities.httpResponses.respondWithContent(JSON.stringify(serverResponse), httpResponse)
+                                    return
+                                }
                                 case 'getWalletBalances': {
 
                                     let serverResponse = await PL.servers.WEB3_SERVER.getWalletBalances(
