@@ -508,7 +508,6 @@ function newGovernanceUserProfileSpace() {
                     let reputation = Number(reputationByLp.get(blockchainAccount.toLowerCase())) + userProfile.payload.blockchainTokens
                     reputationByLp.set(blockchainAccount.toLowerCase(), reputation)
                     console.log('[INFO] Reputation of ' + userProfile.name + ' is incremented to ', reputation + ' from wallet balance')
-                    console.log('[INFO] SA tokens from ' + userProfile.name + ' wallet => ' , Math.floor(Number(commandResponse.SAbalance)))
                     
                     if (reputationByLp.get(blockchainAccount.toLowerCase() + '_custodyAccounts') === undefined) { reputationByLp.set(blockchainAccount.toLowerCase() + '_custodyAccounts', 0) }
                     let prevReputation = reputationByLp.get(blockchainAccount.toLowerCase() + '_custodyAccounts')
@@ -577,8 +576,17 @@ function newGovernanceUserProfileSpace() {
         }
 
         function calculateReputation(userProfile) {
-            reputation = Math.min(reputationByAddress.get(userProfile.payload.blockchainAccount.toLowerCase()) | 0, reputationByLp.get(userProfile.payload.blockchainAccount.toLowerCase()))
-            userProfiles.payload.reputation = reputation
+            let transfered = reputationByAddress.get(userProfile.payload.blockchainAccount.toLowerCase())
+            let pools = Math.floor(reputationByLp.get(userProfile.payload.blockchainAccount.toLowerCase()))
+            if (transfered < pools) {
+                console.log('[INFO] The transfered funds are LOWER than available in LP and wallet => transfer= ' + transfered + ' pools => ' + pools)
+            } else if (transfered === pools) {
+                console.log('[INFO] The transfered funds are EQUAL than available in LP and wallet => transfer= ' + transfered + ' pools => ' + pools)
+            } else if (transfered > pools) {
+                console.log('[INFO] The transfered funds are HIGER than available in LP and wallet => transfer= ' + transfered + ' pools => ' + pools + '. YOU HAVE SOLD!')
+            }
+            let reputation = Math.min(transfered | 0, pools | 0)
+            userProfile.payload.reputation = reputation
             console.log('[INFO] Reputation of ' + userProfile.name + ' is ', reputation)
         }
     }
