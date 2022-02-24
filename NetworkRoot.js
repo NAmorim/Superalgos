@@ -53,7 +53,8 @@ exports.newNetworkRoot = function newNetworkRoot() {
             ws: require('ws'),
             simpleGit: require('simple-git'),
             graphql: require("@octokit/graphql"),
-            axios: require('axios')
+            axios: require('axios'),
+            wrtc: require('wrtc')
         }
         SA.version = require('./package.json').version
         /* 

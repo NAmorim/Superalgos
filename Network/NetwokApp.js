@@ -3,8 +3,10 @@ exports.newNetworkApp = function newNetworkApp() {
     let thisObject = {
         p2pNetworkReachableNodes: undefined,
         p2pNetworkNodesConnectedTo: undefined,
+        p2pNetworkNodesConnectedIn: undefined,
         p2pNetworkNode: undefined,
         webSocketsInterface: undefined,
+        webRTCInterface: undefined,
         httpInterface: undefined,
         socialGraphNetworkService: undefined,
         tradingSignalsNetworkService: undefined,
@@ -62,6 +64,16 @@ exports.newNetworkApp = function newNetworkApp() {
                 thisObject.p2pNetworkInterface,
                 global.env.P2P_NETWORK_NODE_MAX_OUTGOING_PEERS
             )
+            /*
+            Connect to a signaling server and announce presence.
+            */
+            thisObject.p2pNetworkNodesConnectedIn = SA.projects.network.modules.webRTCNetworkClient.newNetworkModulesWebRTCNetworkClient()
+            await thisObject.p2pNetworkNodesConnectedIn.initialize(
+                'Network Peer',
+                thisObject.p2pNetworkNode,
+                thisObject.p2pNetworkReachableNodes,
+                global.env.P2P_NETWORK_NODE_MAX_OUTGOING_PEERS
+            )
         }
 
         async function setupNetworkServices() {
@@ -99,20 +111,21 @@ exports.newNetworkApp = function newNetworkApp() {
                 thisObject.webSocketsInterface.initialize()
                 console.log('Network Node Web Sockets Interface ........................................... Listening at port ' + NT.networkApp.p2pNetworkNode.node.networkInterfaces.websocketsNetworkInterface.config.webSocketsPort)
             }
-/*
-TODO this breaks the network if uncommented with a complete p2p node tree setted up
+
+            //TODO this breaks the network if uncommented with a complete p2p node tree setted up
+            // Create a signaling server to intermediate the peer discovery and setup
             if (
                 thisObject.p2pNetworkNode.node.networkInterfaces !== undefined &&
                 thisObject.p2pNetworkNode.node.networkInterfaces.webrtcNetworkInterface !== undefined
             ) {
-                /!*
-                 Other Network Nodes and Client Apps will communicate with this Network Node via it's WebRTC Interface.
-                 *!/
-                thisObject.webSocketsInterface = NT.projects.network.modules.webSocketsInterface.newNetworkModulesWebRTCInterface()
-                thisObject.webSocketsInterface.initialize()
-                console.log('Network Node Web Sockets Interface ........................................... Interface Node Id ' + '')
+                /*
+                 Peers will announce presence and discover each other.
+                */
+                thisObject.webRTCInterface = NT.projects.network.modules.webRTCInterface.newNetworkModulesWebRTCInterface()
+                thisObject.webRTCInterface.initialize()
+                console.log('Network Node WebRTC Interface ................................................ Peer Id ' + NT.networkApp.p2pNetworkNode.node.networkInterfaces.webrtcNetworkInterface.config.id)
             }
-*/
+
             if (
                 thisObject.p2pNetworkNode.node.networkInterfaces !== undefined &&
                 thisObject.p2pNetworkNode.node.networkInterfaces.httpNetworkInterface !== undefined

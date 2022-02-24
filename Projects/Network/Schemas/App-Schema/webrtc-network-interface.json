@@ -25,7 +25,7 @@
         "config": true
     },
     "initialValues": {
-        "config": "{}"
+        "config": "{\n\"signalServerPort\": \"9456\",\n\"signalServerHost\": \"ws://161.35.152.3\"\n}"
     },
     "addLeftIcons": true,
     "level": 2,

@@ -35,11 +35,11 @@ exports.newNetworkModulesSocketInterfaces = function newNetworkModulesSocketInte
         try {
             let socketMessage
             try {
-                socketMessage = JSON.parse(message)
+                socketMessage = JSON.parse(message.data)
             } catch (err) {
                 let response = {
                     result: 'Error',
-                    message: 'socketMessage Not Coorrect JSON Format.'
+                    message: 'socketMessage Not Correct JSON Format.'
                 }
                 caller.socket.send(JSON.stringify(response))
                 caller.socket.close()
@@ -92,7 +92,7 @@ exports.newNetworkModulesSocketInterfaces = function newNetworkModulesSocketInte
                     if (payload.networkService === undefined) {
                         let response = {
                             result: 'Error',
-                            message: 'Network Service Undifined.'
+                            message: 'Network Service Undefined.'
                         }
                         response.messageId = socketMessage.messageId
                         caller.socket.send(JSON.stringify(response))
@@ -187,11 +187,11 @@ exports.newNetworkModulesSocketInterfaces = function newNetworkModulesSocketInte
                         }
                     }
                     /*
-                    boradcastTo represents the clients we need to bloadcast this message to.
+                    broadcastTo represents the clients we need to broadcast this message to.
                     If it is an empty array, we wont broadcast to clients, but we will broadcast
                     to other peers. If it is undefined that means that it is not a type of 
                     message that should be broadcasted at all.
-                    We need boradcastTo to be at least an empty 
+                    We need broadcastTo to be at least an empty 
                     */
                     if (
                         response.result === 'Ok' &&

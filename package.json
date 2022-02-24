@@ -53,6 +53,7 @@
     "util": "^0.12.4",
     "web3": "^1.6.1",
     "workbox-webpack-plugin": "5.1.4",
+    "wrtc": "^0.4.7",
     "ws": "^8.4.0"
   },
   "optionalDependencies": {
