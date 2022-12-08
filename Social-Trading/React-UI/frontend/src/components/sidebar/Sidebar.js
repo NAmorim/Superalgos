@@ -6,6 +6,7 @@ import '../logo/Logo.css'
 import HomeIcon from '@mui/icons-material/Home';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import PersonIcon from '@mui/icons-material/Person';
+import EmergencyShareIcon from '@mui/icons-material/EmergencyShare';
 import pic from "../../images/superalgos.png";
 import SidebarUserProfile from "../sidebarUserProfile/SidebarUserProfile";
 import React, {useState} from "react";
@@ -45,6 +46,7 @@ const Sidebar = props => {
                         <SidebarItem text={true} value="Home" Button={Button} Icon={HomeIcon}/>
                         <SidebarItem text={true} value="Profile" Button={Button} Icon={PersonIcon}/>
                         <SidebarItem text={true} value="Post" Button={Button} Icon={PostAddIcon}/>
+                        <SidebarItem text={true} value="Signals" Button={Button} Icon={EmergencyShareIcon}/>
                     </Stack>
                 </Stack>
                 <SidebarUserProfile/>
@@ -62,6 +64,7 @@ const Sidebar = props => {
                         <SidebarItem text={false} value="Home" Button={Button} Icon={HomeIcon}/>
                         <SidebarItem text={false} value="Profile" Button={Button} Icon={PersonIcon}/>
                         <SidebarItem text={false} value="Post" Button={Button} Icon={PostAddIcon}/>
+                        <SidebarItem text={false} value="Signals" Button={Button} Icon={EmergencyShareIcon}/>
                     </Stack>
                 </div>
                 <SidebarUserProfile/>
