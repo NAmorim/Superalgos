@@ -8,7 +8,7 @@ on:
 
 jobs:
   create-release:
-    if: github.repository == 'superalgos/superalgos'
+    if: github.repository == 'NAmorim/Superalgos'
     runs-on: ubuntu-latest
     steps:
       - name: Download a file
