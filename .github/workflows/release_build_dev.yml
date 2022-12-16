@@ -1,4 +1,4 @@
-name: Nightly develop Binaries
+name: Nightly develop Binaries (dev)
 
 on:
   schedule:
@@ -20,7 +20,8 @@ jobs:
 
       - name: Get version
         id: vars
-        run:  echo "::set-output name=tag::$(node -p "require('./package.json').version")"
+        # run:  echo "::set-output name=tag::$(node -p "require('./package.json').version")"
+        run: echo "::set-output name=tag::$(fromJSON((npm version).superalgos))"
 
       - name: Create nightly release
         id: create_release
@@ -47,21 +48,22 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y%m%d')"
 
       - name: Check out Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: develop
 
       - name: Install Node.js, NPM and Yarn
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
 
       - name: Get version
         id: vars
         run:  echo "::set-output name=tag::$(node -p "require('./package.json').version")"
 
       - name: Build/release Electron app
-        uses: samuelmeuli/action-electron-builder@v1
+        uses: samuelmeuli/action-electron-builder@v1.6.0
+        # uses: Yan-Jobs/action-electron-builder@v1.7.0
         with:
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)
