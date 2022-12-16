@@ -21,7 +21,7 @@ jobs:
       - name: Get version
         id: vars
         # run:  echo "::set-output name=tag::$(node -p "require('./package.json').version")"
-        run: echo "::set-output name=tag::$(fromJSON((npm version).superalgos))"
+        run: echo "::set-output name=tag::$(fromJSON(npm version).superalgos)"
 
       - name: Create nightly release
         id: create_release
