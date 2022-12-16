@@ -16,12 +16,11 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+        run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
       - name: Get version
         id: vars
-        # run:  echo "::set-output name=tag::$(node -p "require('./package.json').version")"
-        run: echo "::set-output name=tag::$(fromJSON(npm version).superalgos)"
+        run:  echo "tag=$(fromJSON(npm version).superalgos)" >> $GITHUB_ENV
 
       - name: Create nightly release
         id: create_release
@@ -29,13 +28,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.vars.outputs.tag }}-${{ steps.date.outputs.date }}
-          release_name: Superalgos-Beta-v${{ steps.vars.outputs.tag }} Snapshot ${{ steps.date.outputs.date }}
+          tag_name: ${{ env.tag }}-${{ env.date }}
+          release_name: Superalgos-Beta-v${{ env.tag }} Snapshot ${{ env.date }}
           keep_num: 5
           keep_tags: false
 
   build-release:
-    if: github.repository == 'superalgos/superalgos'
+    #if: github.repository == 'superalgos/superalgos'
     runs-on: ${{ matrix.os }}
     needs: create-release
     strategy:
@@ -45,7 +44,7 @@ jobs:
     steps:
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+        run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
       - name: Check out Git repository
         uses: actions/checkout@v3
@@ -57,9 +56,9 @@ jobs:
         with:
           node-version: 16
 
-      - name: Get version
-        id: vars
-        run:  echo "::set-output name=tag::$(node -p "require('./package.json').version")"
+      # - name: Get version
+      #  id: vars
+      #  run:  echo "date=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1.6.0
@@ -68,7 +67,7 @@ jobs:
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)
           github_token: ${{ secrets.github_token }}
-          args: "-c.extraMetadata.version=${{ steps.vars.outputs.tag }}-${{ steps.date.outputs.date }} -c build/electron-builder.json -p onTagOrDraft"
+          args: "-c.extraMetadata.version=${{ env.tag }}-${{ env.date }} -c build/electron-builder.json -p onTagOrDraft"
 
           # If the commit is tagged with a version (e.g. "v1.0.0"),
           # release the app after building
