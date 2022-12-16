@@ -20,7 +20,7 @@ jobs:
 
       - name: Get version
         id: vars
-        run:  echo "tag=$(fromJSON(npm version).superalgos)" >> $GITHUB_ENV
+        run: echo "tag=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: Create nightly release
         id: create_release
