@@ -24,7 +24,7 @@ jobs:
 
       - name: Create nightly release
         id: create_release
-        uses: viperproject/create-nightly-release@main
+        uses: viperproject/create-nightly-release@v1.1.8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
