@@ -50,6 +50,14 @@ jobs:
         uses: actions/checkout@master
         with:
           ref: develop
+      
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_ENV
+
+      - name: Get version
+        id: vars
+        run: echo "tag=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@master
@@ -59,8 +67,7 @@ jobs:
       - run: npm clean-install
 
       - name: Run npm run release
-        run: npm run dist
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
- 
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run dist -- -c.extraMetadata.version=${{ env.tag }}-${{ env.date }} -c build/electron-builder.json -p onTagOrDraft
 
