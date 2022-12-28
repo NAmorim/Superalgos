@@ -8,7 +8,7 @@ on:
 
 jobs:
   create-release:
-    if: github.repository == 'NAmorim/Superalgos'
+    # if: github.repository == 'NAmorim/Superalgos'
     runs-on: ubuntu-latest
     steps:
       - name: Download a file
@@ -56,22 +56,11 @@ jobs:
         with:
           node-version: 16
 
-      # - name: Get version
-      #  id: vars
-      #  run:  echo "date=$(date +'%Y%m%d')" >> $GITHUB_ENV
+      - run: npm clean-install
 
-      - name: Build/release Electron app
-        # uses: samuelmeuli/action-electron-builder@v1.6.0
-        uses: Yan-Jobs/action-electron-builder@master
-        with:
-          # GitHub token, automatically provided to the action
-          # (No need to define this secret in the repo settings)
-          github_token: ${{ secrets.github_token }}
-          args: "-c.extraMetadata.version=${{ env.tag }}-${{ env.date }} -c build/electron-builder.json -p onTagOrDraft"
-
-          # If the commit is tagged with a version (e.g. "v1.0.0"),
-          # release the app after building
-          # release: ${{ startsWith(github.ref, 'refs/tags/v') }}
-          release: true
+      - name: Run npm run release
+        run: npm run dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
 
