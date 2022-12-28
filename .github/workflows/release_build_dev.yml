@@ -69,5 +69,5 @@ jobs:
       - name: Run npm run release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run dist -- -c.extraMetadata.version=${{ env.tag }}-${{ env.date }} -c build/electron-builder.json -p onTagOrDraft
+        run: npm run dist -- -c.extraMetadata.version=${{ $GITHUB_ENV.tag }}-${{ $GITHUB_ENV.date }} -p onTagOrDraft
 
