@@ -24,7 +24,7 @@ jobs:
 
       - name: Create nightly release
         id: create_release
-        uses: viperproject/create-nightly-release@v1
+        uses: viperproject/create-nightly-release@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -47,12 +47,12 @@ jobs:
       #  run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
       - name: Check out Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@master
         with:
           ref: develop
 
       - name: Install Node.js, NPM and Yarn
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@master
         with:
           node-version: 16
 
@@ -62,7 +62,7 @@ jobs:
 
       - name: Build/release Electron app
         # uses: samuelmeuli/action-electron-builder@v1.6.0
-        uses: Yan-Jobs/action-electron-builder@v1.7.0
+        uses: Yan-Jobs/action-electron-builder@master
         with:
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)
