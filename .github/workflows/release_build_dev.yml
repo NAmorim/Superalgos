@@ -51,12 +51,22 @@ jobs:
         with:
           ref: develop
       
-      - name: Get current date
+      - name: Get current date (Win)
         id: date
+        if: runner.os == 'Windows'
+        run: echo "date=$(date +'%Y%m%d')" >> $env:GITHUB_ENV
+      - name: Get current date (non Win)
+        id: date
+        if: runner.os != 'Windows'
         run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
-      - name: Get version
+      - name: Get version (Win)
         id: vars
+        if: runner.os == 'Windows'
+        run: echo "tag=$(node -p "require('./package.json').version")" >> $env:GITHUB_ENV
+      - name: Get version (non Win)
+        id: vars
+        if: runner.os != 'Windows'
         run: echo "tag=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: Install Node.js, NPM and Yarn
@@ -69,5 +79,5 @@ jobs:
       - name: Run npm run release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run dist -- -c.extraMetadata.version=${{ $GITHUB_ENV.tag }}-${{ $GITHUB_ENV.date }} -p onTagOrDraft
+        run: npm run dist -- -c.extraMetadata.version=${{ env.tag }}-${{ env.date }} -p onTagOrDraft
 
