@@ -52,20 +52,16 @@ jobs:
           ref: develop
       
       - name: Get current date (Win)
-        id: date
         if: runner.os == 'Windows'
         run: echo "date=$(date +'%Y%m%d')" >> $env:GITHUB_ENV
       - name: Get current date (non Win)
-        id: date
         if: runner.os != 'Windows'
         run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
       - name: Get version (Win)
-        id: vars
         if: runner.os == 'Windows'
         run: echo "tag=$(node -p "require('./package.json').version")" >> $env:GITHUB_ENV
       - name: Get version (non Win)
-        id: vars
         if: runner.os != 'Windows'
         run: echo "tag=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
