@@ -75,5 +75,5 @@ jobs:
       - name: Run npm run release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run dist -- "-c.extraMetadata.version=${{ env.tag }}-${{ env.date }} -p onTagOrDraft"
+        run: npm run dist -- -p onTagOrDraft "-c.extraMetadata.version=${{ env.tag }}-${{ env.date }}"
 
