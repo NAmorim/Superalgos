@@ -16,7 +16,10 @@
       "!Launch-Scripts",
       "!run.js",
       "!setup.js",
-      "!uninstall.js"
+      "!uninstall.js",
+      "!Bitcoin-Factory",
+      "!Social-Trading",
+      "!Dashboards"
     ],
     "win": {
       "target": [
