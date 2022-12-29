@@ -71,6 +71,7 @@ jobs:
           node-version: 16
 
       - run: npm clean-install
+      - run: npm run predist
 
       - name: Run npm run release
         env:

@@ -17,6 +17,7 @@
     "setup": "node setup noShortcuts",
     "setupWithTf": "node setupWithTf noShortcuts",
     "postsetup": "npm start",
+    "predist": "node build/SetupPlugins",
     "dist": "electron-builder -c build/electron-builder.json",
     "postinstall": "electron-builder install-app-deps",
     "startNetwork": "node network",
@@ -129,5 +130,16 @@
       "js",
       "json"
     ]
+  },
+  "build": {
+    "win": {
+      "publish": "github"
+    },
+    "mac": {
+      "publish": "github"
+    },
+    "linux": {
+      "publish": "github"
+    }
   }
 }
