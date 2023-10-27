@@ -34,7 +34,7 @@
     "@octokit/rest": "^18.12.0",
     "@reduxjs/toolkit": "^1.6.2",
     "@slack/web-api": "^6.5.1",
-    "axios": "^0.26.0",
+    "axios": "^1.6.0",
     "bootstrap": "*",
     "bootstrap-vue": "*",
     "ccxt": "^1.92.75",
