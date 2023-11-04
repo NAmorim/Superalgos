@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:latest-gpu-jupyter
+FROM tensorflow/tensorflow:2.15.0rc1-gpu-jupyter
 
 RUN pip install -U scikit-learn
 RUN pip install pandas
