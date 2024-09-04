@@ -43,7 +43,7 @@
     "discord.js": "^14.6.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
-    "electron-updater": "^4.6.1",
+    "electron-updater": "^6.3.0",
     "ethereumjs-common": "^1.5.2",
     "ethereumjs-tx": "^2.1.2",
     "ethers": "^5.5.3",
