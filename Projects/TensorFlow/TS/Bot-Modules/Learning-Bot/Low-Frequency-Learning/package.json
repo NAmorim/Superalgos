@@ -7,6 +7,6 @@
   "name": "Luis-F-Molina && Philip-W-Love"
   },
   "dependencies": {
-    "@tensorflow/tfjs-node": "^3.8.0"
+    "@tensorflow/tfjs-node": "^4.20.0"
   }
 }
