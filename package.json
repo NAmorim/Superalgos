@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
-    "@octokit/rest": "^18.12.0",
+    "@octokit/rest": "^22.0.0",
     "@reduxjs/toolkit": "^1.6.2",
     "@slack/web-api": "^6.5.1",
     "axios": "^0.26.0",
